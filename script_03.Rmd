@@ -86,10 +86,16 @@ View(sep_new)
 
 Before we start on the model, Wisdom suggests we should:
 
+- Specifically decide what we want to know. Drop between Sep 1 and today
 
+- Decide what data is actually relevant - we should be thoughtful about this.
+-- This means that we should decide what columns we want (undergrad enrollment is most important)
 
 
 After we have a model, Temperance suggests we should:
+- Recognize the limits of our model. It won't tell us everything and there is unaccounted for variance
+- From this model, we can't know why people are dropping - can explain what's happening but not knowing necessary what's happening
+- We also can't separate with this dataset who dropped the course and who added the course
 
 
 
