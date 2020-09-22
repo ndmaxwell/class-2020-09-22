@@ -115,19 +115,21 @@ sep_joined <-
   rename(department = department.x) %>% 
   rename(name = name.x) %>% 
   mutate(u_grad_diff = u_grad_new - u_grad_old) %>% 
-  arrange(u_grad_diff) %>% 
+  arrange(u_grad_diff)
+
+sep_joined_sliced <- sep_joined %>% 
   slice(1:5, 392:396) %>% 
   mutate(Change = ifelse(u_grad_diff > 0, "Increase", "Decrease")) %>% 
   mutate(u_grad_diff_abs = abs(u_grad_diff))
 
-sep_joined %>% 
+sep_joined_sliced %>% 
   ggplot(aes(x = reorder(title, u_grad_diff_abs), y = u_grad_diff_abs,
              fill = Change)) +
     geom_col() +
-    labs(y = "Change in Enrollment", x = "Course Number") +
+    labs(x = "Course Number", y = "Change in Enrollment") +
     coord_flip() +
-    ggtitle("Classes with 10 Biggest Increases and 
-            \n 5 Biggest Decreases in Enrollment") +
+    ggtitle("Classes with Five Biggest Increases and Five 
+            \n Biggest Decreases in Enrollment, Sep 1st - Sep 21st") +
     theme_minimal()
   
 
