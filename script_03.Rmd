@@ -117,18 +117,18 @@ sep_joined <-
   mutate(u_grad_diff = u_grad_new - u_grad_old) %>% 
   arrange(u_grad_diff) %>% 
   slice(1:5, 392:396) %>% 
-  mutate(positive = ifelse(u_grad_diff > 0, "Increase", "Decrease")) %>% 
+  mutate(Change = ifelse(u_grad_diff > 0, "Increase", "Decrease")) %>% 
   mutate(u_grad_diff_abs = abs(u_grad_diff))
 
 sep_joined %>% 
-  ggplot(aes(x = reorder(title, u_grad_diff_abs), y = u_grad_diff_abs)) +
+  ggplot(aes(x = reorder(title, u_grad_diff_abs), y = u_grad_diff_abs,
+             fill = Change)) +
     geom_col() +
-    facet_wrap(~ positive) +
-    labs(y = "Change", x = "Course Title") +
+    labs(y = "Change in Enrollment", x = "Course Number") +
     coord_flip() +
-    ggtitle("Classes with 5 Biggest Increases and 
+    ggtitle("Classes with 10 Biggest Increases and 
             \n 5 Biggest Decreases in Enrollment") +
-  theme_classic()
+    theme_minimal()
   
 
 ```
