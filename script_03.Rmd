@@ -118,11 +118,11 @@ sep_joined <-
   arrange(u_grad_diff) %>% 
   slice(1:5, 392:396) %>% 
   mutate(positive = ifelse(u_grad_diff > 0, "Increase", "Decrease")) %>% 
-  mutate(u_grad_diff = abs(u_grad_diff)) %>% 
+  mutate(u_grad_diff_abs = abs(u_grad_diff)) %>% 
   group_by(positive)
 
 sep_joined %>% 
-  ggplot(aes(x = title, y = u_grad_diff)) +
+  ggplot(aes(x = reorder(title, u_grad_diff_abs), y = u_grad_diff_abs)) +
     geom_col() +
     facet_wrap(~ positive) +
     labs(y = "Change", x = "Course Title") +
