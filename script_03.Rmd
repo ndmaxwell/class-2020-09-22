@@ -56,9 +56,10 @@ View(sep_old)
 ### Scene 1
 
 **Prompt:** Read in and clean the new data, creating an object called `sep_new`. 
-```{r sc0}
+```{r sc1}
 sep_new <- 
-  read_excel("new_data/class_enrollment_summary_by_term_9-22-2020.xlsx", skip = 3) %>% 
+  read_excel("new_data/class_enrollment_summary_by_term_9-22-2020.xlsx", 
+             skip = 3) %>% 
   clean_names() %>% 
   filter(! is.na(course_title)) %>% 
   select(-grad, -non_degree, -x_reg, -vus, -employee, 
