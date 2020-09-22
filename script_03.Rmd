@@ -15,6 +15,7 @@ library(tidyverse)
 library(readxl)
 library(janitor)
 knitr::opts_chunk$set(echo = TRUE)
+library(ggthemes)
 ```
 
 
@@ -103,7 +104,35 @@ After we have a model, Temperance suggests we should:
 
 **Prompt:** Which classes had the biggest increases and decreases in undergraduate enrollments between September 1 and today? Make a graphic that shows the 5 biggest increases and decreases. Make it look nice.
 
+```{r sc3}
 
+sep_joined <- 
+  inner_join(sep_old, sep_new, by = "id") %>% 
+  rename(u_grad_old = u_grad_new.x) %>% 
+  rename(u_grad_new = u_grad_new.y) %>% 
+  select(-department.y, -title.y, -name.y) %>% 
+  rename(title = title.x) %>% 
+  rename(department = department.x) %>% 
+  rename(name = name.x) %>% 
+  mutate(u_grad_diff = u_grad_new - u_grad_old) %>% 
+  arrange(u_grad_diff) %>% 
+  slice(1:5, 392:396) %>% 
+  mutate(positive = ifelse(u_grad_diff > 0, "Increase", "Decrease")) %>% 
+  mutate(u_grad_diff = abs(u_grad_diff)) %>% 
+  group_by(positive)
+
+sep_joined %>% 
+  ggplot(aes(x = title, y = u_grad_diff)) +
+    geom_col() +
+    facet_wrap(~ positive) +
+    labs(y = "Change", x = "Course Title") +
+    coord_flip() +
+    ggtitle("Classes with 5 Biggest Increases and 
+            \n 5 Biggest Decreases in Enrollment") +
+  theme_classic()
+  
+
+```
 
 
 
