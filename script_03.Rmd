@@ -1,6 +1,6 @@
 ---
 title: "Week 3"
-author: "David Kane"
+author: "Nick Maxwell"
 output: html_document
 ---
 
@@ -40,7 +40,13 @@ sep_old <-
          title = course_title,
          name = course_name,
          department = course_department) %>% 
-  filter(u_grad > 10)
+  filter(u_grad > 10) %>% 
+  group_by(title) %>% 
+  mutate(u_grad_new = sum(u_grad)) %>% 
+  select(-u_grad) %>% 
+  distinct()
+
+View(sep_old)
 
 # But this is not correct! Look for Gov 50: Data. What do you see? What can you
 # do to clean it up?
