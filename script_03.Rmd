@@ -56,7 +56,26 @@ View(sep_old)
 ### Scene 1
 
 **Prompt:** Read in and clean the new data, creating an object called `sep_new`. 
+```{r sc0}
+sep_new <- 
+  read_excel("new_data/class_enrollment_summary_by_term_9-22-2020.xlsx", skip = 3) %>% 
+  clean_names() %>% 
+  filter(! is.na(course_title)) %>% 
+  select(-grad, -non_degree, -x_reg, -vus, -employee, 
+         -withdraw, -total, -instructor_full_name, -course_section_code) %>%
+  rename(id = course_id,
+         title = course_title,
+         name = course_name,
+         department = course_department) %>% 
+  filter(u_grad > 10) %>% 
+  group_by(title) %>% 
+  mutate(u_grad_new = sum(u_grad)) %>% 
+  select(-u_grad) %>% 
+  distinct()
 
+View(sep_new)
+
+```
 
 
 ### Scene 2
