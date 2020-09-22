@@ -47,8 +47,6 @@ sep_old <-
   select(-u_grad) %>% 
   distinct()
 
-View(sep_old)
-
 # But this is not correct! Look for Gov 50: Data. What do you see? What can you
 # do to clean it up?
 ```
@@ -74,8 +72,6 @@ sep_new <-
   mutate(u_grad_new = sum(u_grad)) %>% 
   select(-u_grad) %>% 
   distinct()
-
-View(sep_new)
 
 ```
 
@@ -108,12 +104,9 @@ After we have a model, Temperance suggests we should:
 
 sep_joined <- 
   inner_join(sep_old, sep_new, by = "id") %>% 
-  rename(u_grad_old = u_grad_new.x) %>% 
-  rename(u_grad_new = u_grad_new.y) %>% 
-  select(-department.y, -title.y, -name.y) %>% 
-  rename(title = title.x) %>% 
-  rename(department = department.x) %>% 
-  rename(name = name.x) %>% 
+  select(-department.y, -title.y, -name.y) %>%
+  rename(title = title.x, department = department.x, name = name.x,
+         u_grad_old = u_grad_new.x, u_grad_new = u_grad_new.y) %>% 
   mutate(u_grad_diff = u_grad_new - u_grad_old) %>% 
   arrange(u_grad_diff)
 
@@ -126,11 +119,12 @@ sep_joined_sliced %>%
   ggplot(aes(x = reorder(title, u_grad_diff_abs), y = u_grad_diff_abs,
              fill = Change)) +
     geom_col() +
-    labs(x = "Course Number", y = "Change in Enrollment") +
+    labs(x = "Course Number", y = "Change in Enrollment",
+         caption = "Source: Harvard Registrar's Office") +
     coord_flip() +
     ggtitle("Classes with Five Biggest Increases and Five 
             \n Biggest Decreases in Enrollment, Sep 1st - Sep 21st") +
-    theme_minimal()
+    theme_minimal() 
   
 
 ```
